@@ -4,24 +4,31 @@ using namespace std;
 class User{
     public:
     string name;
-    string email;
-    int mobileNo;
+    // string email;
+    // int mobileNo;
 
-    User(string name, string email, string mobileNo){
+    User(string name){//, string email, string mobileNo){
         this->name=name;
-        this->email=email;
-        this->mobileNo=mobileNo;
+        // this->email=email;
+        // this->mobileNo=mobileNo;
     }
+};
+
+enum Status {
+    DELAY, ONTIME, CANCELLED
 };
 
 class Airline{
     public:
     string name;
-    vector<Flight> flights;
+    //vector<Flight> flights;
 
-    Airline(string name, vector<Flight> flights){
+    Airline(){};
+
+    Airline(string name){
+        //, vector<Flight> flights){
         this->name=name;
-        this->flights=flights;
+        //this->flights=flights;
     }
 };
 
@@ -36,44 +43,72 @@ class Seat{
     }
 };
 
-class Flight{
-    public:
-    int flightNo;
-    Airline company;
-    int seatCapacity;
-    vector<Seat> seats;
-    vector<Schedule> schedule;
-};
+// class Flight{
+//     public:
+//     int number;
+//     Airline company;
+//     //int seatCapacity;
+//     // vector<Seat> seats;
+//     // vector<Schedule> schedule;
 
-class Schedule{
-    public:
-    Flight flight;
-    Airport Start;
-    Airport end;
-    clock start;
-    clock end;
-    Status status;
+//     Flight(int number, Airline company){
+//         this->number=number;
+//         this->company=company;
+//     }
+// };
+
+class Flight {
+public:
+    int number;
+    Airline company;
+    Flight(int number, Airline company) : number(number), company(company) {}
 };
 
 class Airport{
     public:
     string name;
     string location;
-    vector<Flight> flights;
+    //vector<Flight> flights;
+
+    Airport(string name, string location){
+        this->name=name;
+        this->location=location;
+    }
 };
 
-enum Status {
-    DELAY, ONTIME, CANCELLED;
-};
+// class Schedule{
+//     public:
+//     Flight flight;
+//     Airport start;
+//     Airport end;
+//     // clock start;
+//     // clock end;
+//     // Status status;
 
+//     Schedule(Flight flight, Airport start, Airport end){
+//         this->flight=flight;
+//         this->start=start;
+//         this->end=end;
+//     }
+// };
+
+
+class Schedule {
+public:
+    Flight flight;
+    Airport start;
+    Airport end;
+    Schedule(Flight flight, Airport start, Airport end)
+        : flight(flight), start(start), end(end) {}
+};
 
 class App{
-    private:
-    App(User user, Airport airport, Airline airline, Flight flight, Seat seat){
+    public:
+    App(User user, Airline airline, Schedule schedule, Seat seat){
         cout<<"FLIGHT IS BOOKED"<<endl;
-        cout<<"Name : "<<user.name<<" "<<"Email : "<<user.email<<" "<<"Mobile : "<<user.mobileNo<<endl;
-        cout<<"Airport : "<<airport.location<<endl;
-        cout<<"Airline : "<<airline.name<<" "<<"Flight Number : "<<flight.flightNo<<endl;
+        cout<<"Name : "<<user.name<<endl;
+        cout<<"From Airport : "<<schedule.start.location<<" To Airport : "<<schedule.end.location<<endl;
+        cout<<"Airline : "<<airline.name<<" "<<"Flight Number : "<<schedule.flight.number<<endl;
         cout<<"Seat Number : "<<seat.seatNo;
     }
 };
@@ -81,6 +116,15 @@ class App{
 
 
 int main(){
-    User user();
+    User user("srijan");
+    Airline airline("INDIGO AIRLINES");
+    Seat seat(1, "economy");
+    Flight flight(100, airline);
+    Airport dep("PAT AIRPORT", "PATNA" );
+    Airport air("BLR AIRPORT", "BANGALORE");
+    Schedule schedule(flight, dep, air);
+
+    App(user, airline, schedule, seat);
+
     return 0;
 }
